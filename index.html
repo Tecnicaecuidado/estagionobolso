@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfólio de Estágio · Técnica & Cuidado</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700;9..144,800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0f1a14; --paper:#f6f8f5; --paper2:#eef2ec; --surface:#ffffff;
+  --green-dk:#123524; --green:#166534; --green-lt:#2f8f5b;
+  --gold:#c9971f; --gold-lt:#f4e6bf;
+  --muted:#5b6b62; --line:#dbe4dc; --red:#b91c1c; --red-lt:#fde8e8;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:'Inter',sans-serif; background:var(--paper); color:var(--ink);
+  min-height:100vh;
+}
+h1,h2,h3,.disp{font-family:'Fraunces',serif;}
+button{font-family:inherit; cursor:pointer;}
+
+header{
+  background:linear-gradient(135deg,var(--green-dk),var(--green)); color:#fff;
+  padding:22px 24px; position:relative; overflow:hidden;
+}
+header::after{
+  content:""; position:absolute; right:-40px; top:-40px; width:160px; height:160px; border-radius:50%;
+  background:radial-gradient(circle, rgba(201,151,31,0.35), transparent 70%);
+}
+.headtop{display:flex; align-items:flex-start; justify-content:space-between; gap:14px; flex-wrap:wrap; position:relative; z-index:1;}
+.brand{font-size:12px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold-lt); font-weight:700;}
+h1{font-size:26px; margin:4px 0 2px 0; font-weight:700; letter-spacing:-0.3px;}
+.sub{font-size:13px; color:#dcecdf; margin:0;}
+.headactions{display:flex; gap:8px; flex-wrap:wrap;}
+.toolbtn{
+  background:rgba(255,255,255,0.14); border:1px solid rgba(255,255,255,0.25); color:#fff;
+  border-radius:8px; padding:7px 12px; font-size:12.5px; font-weight:700; white-space:nowrap;
+}
+.toolbtn:hover{background:rgba(255,255,255,0.24);}
+.toolbtn.primary{background:var(--gold); border-color:var(--gold); color:#3a2b04;}
+
+.savebanner{
+  display:none; background:var(--gold-lt); border-bottom:1px solid #e6cd85; color:#5a4207;
+  padding:9px 24px; font-size:12.5px; font-weight:600; text-align:center;
+}
+.savebanner.show{display:block;}
+
+.wrap{max-width:1080px; margin:0 auto; padding:24px;}
+
+.statgrid{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:26px;}
+.statcard{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:16px 18px;}
+.statcard b{display:block; font-family:'Fraunces',serif; font-size:26px; color:var(--green-dk); line-height:1;}
+.statcard span{font-size:11px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.3px;}
+
+.goalcard{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:16px 18px; margin-bottom:26px;}
+.goaltop{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:8px;}
+.goaltop b{font-family:'Fraunces',serif; font-size:16px; color:var(--green-dk);}
+.goaltop span{font-size:12px; color:var(--muted); font-weight:600;}
+.goalbaroutter{width:100%; height:12px; background:var(--paper2); border-radius:20px; overflow:hidden;}
+.goalbarinner{height:100%; background:linear-gradient(90deg,var(--green),var(--gold)); border-radius:20px; transition:width .3s;}
+.goalover{background:linear-gradient(90deg,var(--green),var(--green-lt)) !important;}
+
+.sectionhead{display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; gap:10px; flex-wrap:wrap;}
+.sectionhead h2{font-size:19px; margin:0;}
+
+/* form */
+.formpanel{display:none; background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:22px; margin-bottom:26px;}
+.formpanel.show{display:block;}
+.formgrid{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+.field{margin-bottom:14px;}
+.field.full{grid-column:1/-1;}
+.field label{font-size:11.5px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.3px; display:block; margin-bottom:5px;}
+.field input, .field select, .field textarea{
+  width:100%; padding:9px 11px; border:1.5px solid var(--line); border-radius:9px; font-size:14px;
+  font-family:inherit; background:var(--paper); color:var(--ink);
+}
+.field textarea{resize:vertical; min-height:70px;}
+.modetoggle{display:flex; gap:8px; margin-bottom:16px;}
+.modebtn{flex:1; padding:10px; border-radius:10px; border:1.5px solid var(--line); background:var(--paper); font-weight:700; font-size:13px; color:var(--muted);}
+.modebtn.active{background:var(--green); border-color:var(--green); color:#fff;}
+
+.chiprow{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px;}
+.chip{
+  font-size:11.5px; font-weight:700; padding:6px 11px; border-radius:20px; border:1.3px solid var(--line);
+  background:var(--paper); color:var(--green-dk);
+}
+.chip:hover{border-color:var(--green-lt);}
+
+.proclist{display:flex; flex-direction:column; gap:6px; margin-bottom:12px;}
+.procrow{display:flex; align-items:center; gap:8px; background:var(--paper2); border-radius:9px; padding:7px 10px;}
+.procrow .pname{flex:1; font-size:13.5px; font-weight:600;}
+.procqty{display:flex; align-items:center; gap:6px;}
+.qtybtn{width:22px; height:22px; border-radius:6px; border:1px solid var(--line); background:var(--surface); font-weight:800; font-size:13px; line-height:1;}
+.procrow .rm{background:none; border:none; color:var(--red); font-size:13px; font-weight:700;}
+.addcustom{display:flex; gap:8px;}
+.addcustom input{flex:1;}
+.addcustom button{background:var(--green); color:#fff; border:none; border-radius:9px; padding:0 14px; font-weight:700; font-size:13px;}
+
+.formactions{display:flex; gap:10px; justify-content:flex-end; margin-top:6px;}
+.btn{border:none; border-radius:9px; padding:10px 18px; font-weight:700; font-size:13.5px;}
+.btn.ghost{background:var(--paper2); color:var(--muted);}
+.btn.solid{background:var(--green); color:#fff;}
+
+/* entries list */
+.monthlabel{font-size:12px; font-weight:800; color:var(--gold); text-transform:uppercase; letter-spacing:.5px; margin:20px 0 10px 0;}
+.entry{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:16px 18px; margin-bottom:10px;}
+.entrytop{display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:8px; flex-wrap:wrap;}
+.entrydate{font-family:'Fraunces',serif; font-size:17px; font-weight:700; color:var(--green-dk);}
+.entrymeta{font-size:12px; color:var(--muted); margin-top:2px;}
+.entryactions{display:flex; gap:6px;}
+.iconbtn{background:var(--paper2); border:none; border-radius:7px; padding:5px 9px; font-size:12px; color:var(--muted);}
+.entrybody{font-size:13.5px; color:var(--ink); line-height:1.5;}
+.proctags{display:flex; flex-wrap:wrap; gap:5px; margin-top:8px;}
+.proctag{background:var(--paper2); border-radius:8px; padding:3px 8px; font-size:11.5px; font-weight:600; color:var(--green-dk);}
+.emptystate{text-align:center; padding:50px 20px; color:var(--muted);}
+.emptystate .eicon{font-size:40px; margin-bottom:10px;}
+
+/* report modal */
+.modalbg{display:none; position:fixed; inset:0; background:rgba(10,20,15,0.5); z-index:50; align-items:center; justify-content:center; padding:16px;}
+.modalbg.show{display:flex;}
+.modal{background:var(--surface); border-radius:16px; padding:22px; width:100%; max-width:560px; max-height:85vh; overflow-y:auto; box-shadow:0 20px 50px rgba(0,0,0,0.3);}
+.modal h3{margin:0 0 4px 0; font-size:19px;}
+.modal p.msub{font-size:12.5px; color:var(--muted); margin:0 0 16px 0;}
+.modalclose{float:right; background:none; border:none; font-size:18px; color:var(--muted);}
+.reportbox{background:var(--paper2); border-radius:10px; padding:14px; font-size:12.5px; white-space:pre-wrap; line-height:1.5; max-height:320px; overflow-y:auto; margin-top:14px; font-family:monospace;}
+.fileinput{display:none;}
+
+@media (max-width:760px){
+  .statgrid{grid-template-columns:1fr 1fr;}
+  .formgrid{grid-template-columns:1fr;}
+  .headtop{flex-direction:column;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="headtop">
+    <div>
+      <div class="brand">Técnica &amp; Cuidado</div>
+      <h1>Portfólio de Estágio</h1>
+      <p class="sub">Registro dos plantões pra bater carga horária e montar os relatórios depois.</p>
+    </div>
+    <div class="headactions">
+      <button class="toolbtn" id="goalBtn">🎯 Definir meta</button>
+      <button class="toolbtn" id="importBtn">⬆️ Importar backup</button>
+      <button class="toolbtn" id="exportBtn">⬇️ Exportar backup</button>
+      <button class="toolbtn" id="reportBtn">📄 Gerar relatório</button>
+      <button class="toolbtn primary" id="newBtn">+ Novo registro</button>
+    </div>
+  </div>
+</header>
+
+<div class="savebanner" id="saveBanner">💾 Você tem registros não exportados. Clique em "Exportar backup" antes de fechar essa aba, ou vai perder o que digitou.</div>
+
+<div class="wrap">
+
+  <div class="statgrid" id="statGrid"></div>
+  <div id="goalWrap"></div>
+
+  <div class="formpanel" id="formPanel">
+    <div class="sectionhead"><h2 id="formTitle">Novo registro</h2></div>
+    <div class="formgrid">
+      <div class="field"><label>Data</label><input type="date" id="fData"></div>
+      <div class="field"><label>Setor</label>
+        <input type="text" id="fSetor" list="setorList" placeholder="Ex: UTI, Emergência...">
+        <datalist id="setorList">
+          <option value="Emergência"><option value="UTI"><option value="Centro Obstétrico">
+          <option value="Clínica Médica"><option value="Clínica Cirúrgica"><option value="Pediatria">
+          <option value="Pronto Socorro"><option value="Centro Cirúrgico">
+        </datalist>
+      </div>
+      <div class="field"><label>Hospital/Unidade</label><input type="text" id="fHospital" placeholder="Opcional"></div>
+      <div class="field"><label>Supervisor(a)</label><input type="text" id="fSupervisor" placeholder="Ex: Profª Larissa"></div>
+      <div class="field"><label>Hora início</label><input type="time" id="fInicio"></div>
+      <div class="field"><label>Hora fim</label><input type="time" id="fFim"></div>
+    </div>
+
+    <div class="modetoggle">
+      <button class="modebtn active" id="modeResumo" type="button">📝 Resumo geral</button>
+      <button class="modebtn" id="modeDetalhado" type="button">📋 Por procedimento</button>
+    </div>
+
+    <div id="resumoBlock">
+      <div class="field full"><label>Resumo do plantão</label>
+        <textarea id="fResumo" placeholder="O que você fez, casos que acompanhou, aprendizados..."></textarea>
+      </div>
+    </div>
+
+    <div id="detalhadoBlock" style="display:none">
+      <div class="field full">
+        <label>Adicionar rápido</label>
+        <div class="chiprow" id="quickChips"></div>
+        <div class="addcustom">
+          <input type="text" id="customProc" placeholder="Outro procedimento...">
+          <button type="button" id="addCustomBtn">Adicionar</button>
+        </div>
+      </div>
+      <div class="field full">
+        <label>Procedimentos registrados</label>
+        <div class="proclist" id="procList"></div>
+      </div>
+    </div>
+
+    <div class="field full"><label>Observações gerais (opcional)</label><textarea id="fObs" placeholder="Qualquer coisa a mais que queira lembrar"></textarea></div>
+
+    <div class="formactions">
+      <button class="btn ghost" id="cancelBtn">Cancelar</button>
+      <button class="btn solid" id="saveBtn">Salvar registro</button>
+    </div>
+  </div>
+
+  <div class="sectionhead"><h2>Seus registros</h2></div>
+  <div id="entriesWrap"></div>
+
+</div>
+
+<div class="modalbg" id="reportModal">
+  <div class="modal">
+    <button class="modalclose" id="reportClose">✕</button>
+    <h3>📄 Gerar relatório</h3>
+    <p class="msub">Escolha o período. O texto sai pronto pra copiar e usar no relatório.</p>
+    <div class="formgrid">
+      <div class="field"><label>De</label><input type="date" id="repFrom"></div>
+      <div class="field"><label>Até</label><input type="date" id="repTo"></div>
+    </div>
+    <button class="btn solid" id="repGenBtn" style="width:100%">Gerar</button>
+    <div class="reportbox" id="reportBox" style="display:none"></div>
+    <button class="btn ghost" id="repCopyBtn" style="display:none; width:100%; margin-top:10px;">📋 Copiar texto</button>
+  </div>
+</div>
+
+<input type="file" id="fileInput" class="fileinput" accept="application/json">
+
+<script>
+let entries = [];
+let goalHours = null;
+let editingId = null;
+let dirty = false;
+let currentMode = 'resumo';
+let currentProcs = []; // [{nome, qtd}]
+
+const QUICK_PROCS = [
+  'Punção venosa periférica','Administração de medicação EV','Administração de medicação IM',
+  'Curativo','Verificação de sinais vitais','Glicemia capilar','Sondagem vesical',
+  'Sondagem nasogástrica','Aspiração de vias aéreas','Coleta de exames','ECG',
+  'Banho no leito','Mudança de decúbito','Admissão de paciente','Alta de paciente',
+  'Passagem de plantão','Assistência ao parto','Cuidados com RN','Instalação de bomba de infusão'
+];
+
+function uid(){ return 'e' + Date.now() + Math.random().toString(36).slice(2,7); }
+function markDirty(){ dirty = true; document.getElementById('saveBanner').classList.add('show'); }
+
+function hoursBetween(hi, hf){
+  if(!hi || !hf) return 0;
+  const [h1,m1] = hi.split(':').map(Number);
+  const [h2,m2] = hf.split(':').map(Number);
+  let mins = (h2*60+m2) - (h1*60+m1);
+  if(mins < 0) mins += 24*60;
+  return mins/60;
+}
+
+/* ---------- form ---------- */
+const formPanel = document.getElementById('formPanel');
+const quickChips = document.getElementById('quickChips');
+QUICK_PROCS.forEach(p=>{
+  const c = document.createElement('button');
+  c.type='button'; c.className='chip'; c.textContent='+ '+p;
+  c.onclick = ()=>addProc(p,1);
+  quickChips.appendChild(c);
+});
+
+function addProc(nome, qtd){
+  const existing = currentProcs.find(p=>p.nome===nome);
+  if(existing) existing.qtd += qtd;
+  else currentProcs.push({nome, qtd});
+  renderProcList();
+}
+function renderProcList(){
+  const el = document.getElementById('procList');
+  el.innerHTML = '';
+  if(currentProcs.length===0){
+    el.innerHTML = '<div style="font-size:12.5px;color:var(--muted)">Nenhum procedimento adicionado ainda.</div>';
+    return;
+  }
+  currentProcs.forEach((p,i)=>{
+    const row = document.createElement('div');
+    row.className = 'procrow';
+    row.innerHTML = `<span class="pname">${p.nome}</span>
+      <div class="procqty">
+        <button type="button" class="qtybtn" data-a="-">−</button>
+        <span>${p.qtd}x</span>
+        <button type="button" class="qtybtn" data-a="+">+</button>
+      </div>
+      <button type="button" class="rm">✕</button>`;
+    row.querySelector('[data-a="-"]').onclick = ()=>{ p.qtd = Math.max(1,p.qtd-1); renderProcList(); };
+    row.querySelector('[data-a="+"]').onclick = ()=>{ p.qtd += 1; renderProcList(); };
+    row.querySelector('.rm').onclick = ()=>{ currentProcs.splice(i,1); renderProcList(); };
+    el.appendChild(row);
+  });
+}
+document.getElementById('addCustomBtn').onclick = ()=>{
+  const inp = document.getElementById('customProc');
+  const v = inp.value.trim();
+  if(v){ addProc(v,1); inp.value=''; }
+};
+
+document.getElementById('modeResumo').onclick = ()=>setMode('resumo');
+document.getElementById('modeDetalhado').onclick = ()=>setMode('detalhado');
+function setMode(m){
+  currentMode = m;
+  document.getElementById('modeResumo').classList.toggle('active', m==='resumo');
+  document.getElementById('modeDetalhado').classList.toggle('active', m==='detalhado');
+  document.getElementById('resumoBlock').style.display = m==='resumo' ? 'block':'none';
+  document.getElementById('detalhadoBlock').style.display = m==='detalhado' ? 'block':'none';
+}
+
+document.getElementById('newBtn').onclick = ()=>openForm();
+document.getElementById('cancelBtn').onclick = ()=>closeForm();
+
+function openForm(entry){
+  editingId = entry ? entry.id : null;
+  document.getElementById('formTitle').textContent = entry ? 'Editar registro' : 'Novo registro';
+  document.getElementById('fData').value = entry ? entry.data : new Date().toISOString().slice(0,10);
+  document.getElementById('fSetor').value = entry ? entry.setor : '';
+  document.getElementById('fHospital').value = entry ? entry.hospital : '';
+  document.getElementById('fSupervisor').value = entry ? entry.supervisor : '';
+  document.getElementById('fInicio').value = entry ? entry.inicio : '';
+  document.getElementById('fFim').value = entry ? entry.fim : '';
+  document.getElementById('fResumo').value = entry ? entry.resumo || '' : '';
+  document.getElementById('fObs').value = entry ? entry.obs || '' : '';
+  currentProcs = entry && entry.procs ? JSON.parse(JSON.stringify(entry.procs)) : [];
+  setMode(entry ? entry.modo : 'resumo');
+  renderProcList();
+  formPanel.classList.add('show');
+  formPanel.scrollIntoView({behavior:'smooth', block:'start'});
+}
+function closeForm(){
+  formPanel.classList.remove('show');
+  editingId = null;
+}
+
+document.getElementById('saveBtn').onclick = ()=>{
+  const data = document.getElementById('fData').value;
+  if(!data){ alert('Preencha a data.'); return; }
+  const entry = {
+    id: editingId || uid(),
+    data,
+    setor: document.getElementById('fSetor').value.trim(),
+    hospital: document.getElementById('fHospital').value.trim(),
+    supervisor: document.getElementById('fSupervisor').value.trim(),
+    inicio: document.getElementById('fInicio').value,
+    fim: document.getElementById('fFim').value,
+    modo: currentMode,
+    resumo: document.getElementById('fResumo').value.trim(),
+    procs: JSON.parse(JSON.stringify(currentProcs)),
+    obs: document.getElementById('fObs').value.trim(),
+  };
+  if(editingId){
+    const idx = entries.findIndex(e=>e.id===editingId);
+    entries[idx] = entry;
+  } else {
+    entries.push(entry);
+  }
+  markDirty();
+  closeForm();
+  renderAll();
+};
+
+/* ---------- rendering ---------- */
+function renderStats(){
+  const totalPlantoes = entries.length;
+  const totalHoras = entries.reduce((s,e)=>s+hoursBetween(e.inicio,e.fim),0);
+  const setores = new Set(entries.map(e=>e.setor).filter(Boolean));
+  const procCount = {};
+  entries.forEach(e=>(e.procs||[]).forEach(p=>{ procCount[p.nome] = (procCount[p.nome]||0)+p.qtd; }));
+  let topProc = '—';
+  let topN = 0;
+  for(const k in procCount){ if(procCount[k]>topN){ topN=procCount[k]; topProc=k; } }
+  const grid = document.getElementById('statGrid');
+  grid.innerHTML = `
+    <div class="statcard"><b>${totalPlantoes}</b><span>Plantões</span></div>
+    <div class="statcard"><b>${totalHoras.toFixed(0)}h</b><span>Horas totais</span></div>
+    <div class="statcard"><b>${setores.size}</b><span>Setores</span></div>
+    <div class="statcard"><b style="font-size:16px">${topProc}</b><span>Mais feito${topN?' ('+topN+'x)':''}</span></div>`;
+
+  const goalWrap = document.getElementById('goalWrap');
+  if(goalHours && goalHours>0){
+    const pct = Math.min(100, (totalHoras/goalHours)*100);
+    const done = totalHoras>=goalHours;
+    goalWrap.innerHTML = `
+      <div class="goalcard">
+        <div class="goaltop">
+          <b>🎯 Meta de carga horária</b>
+          <span>${totalHoras.toFixed(1)}h de ${goalHours}h (${pct.toFixed(0)}%)${done?' · concluída! 🎉':''}</span>
+        </div>
+        <div class="goalbaroutter"><div class="goalbarinner ${done?'goalover':''}" style="width:${pct}%"></div></div>
+      </div>`;
+  } else {
+    goalWrap.innerHTML = '';
+  }
+}
+
+document.getElementById('goalBtn').onclick = ()=>{
+  const v = prompt('Quantas horas de estágio você precisa cumprir no total?', goalHours||'');
+  if(v===null) return;
+  const n = parseFloat(v.replace(',','.'));
+  if(!isNaN(n) && n>0){
+    goalHours = n;
+    markDirty();
+    renderAll();
+  }
+};
+
+function renderEntries(){
+  const wrap = document.getElementById('entriesWrap');
+  wrap.innerHTML = '';
+  if(entries.length===0){
+    wrap.innerHTML = `<div class="emptystate"><div class="eicon">🩺</div>Nenhum registro ainda. Clique em "+ Novo registro" pra começar.</div>`;
+    return;
+  }
+  const sorted = [...entries].sort((a,b)=>b.data.localeCompare(a.data));
+  let lastMonth = null;
+  const monthNames = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+  sorted.forEach(e=>{
+    const [y,m,d] = e.data.split('-');
+    const monthKey = y+'-'+m;
+    if(monthKey!==lastMonth){
+      lastMonth = monthKey;
+      const lbl = document.createElement('div');
+      lbl.className = 'monthlabel';
+      lbl.textContent = monthNames[parseInt(m)-1] + ' de ' + y;
+      wrap.appendChild(lbl);
+    }
+    const horas = hoursBetween(e.inicio, e.fim);
+    const card = document.createElement('div');
+    card.className = 'entry';
+    const metaParts = [e.setor, e.hospital, e.supervisor ? 'Superv.: '+e.supervisor : null,
+                        (e.inicio&&e.fim) ? `${e.inicio}–${e.fim} (${horas.toFixed(1)}h)` : null].filter(Boolean);
+    let body = '';
+    if(e.modo==='resumo'){
+      body = `<div class="entrybody">${(e.resumo||'').replace(/\n/g,'<br>')||'<i style=\"color:var(--muted)\">Sem resumo.</i>'}</div>`;
+    } else {
+      const tags = (e.procs||[]).map(p=>`<span class="proctag">${p.nome} · ${p.qtd}x</span>`).join('');
+      body = `<div class="proctags">${tags||'<i style=\"color:var(--muted)\">Nenhum procedimento.</i>'}</div>`;
+    }
+    if(e.obs){ body += `<div class="entrybody" style="margin-top:8px;color:var(--muted)">${e.obs}</div>`; }
+    card.innerHTML = `
+      <div class="entrytop">
+        <div><div class="entrydate">${d}/${m}/${y}</div><div class="entrymeta">${metaParts.join(' · ')}</div></div>
+        <div class="entryactions">
+          <button class="iconbtn" data-dup="${e.id}">📋 Duplicar</button>
+          <button class="iconbtn" data-edit="${e.id}">✏️ Editar</button>
+          <button class="iconbtn" data-del="${e.id}">🗑️ Excluir</button>
+        </div>
+      </div>
+      ${body}`;
+    card.querySelector('[data-dup]').onclick = ()=>duplicateEntry(e);
+    card.querySelector('[data-edit]').onclick = ()=>openForm(e);
+    card.querySelector('[data-del]').onclick = ()=>{
+      if(confirm('Excluir este registro?')){
+        entries = entries.filter(x=>x.id!==e.id);
+        markDirty();
+        renderAll();
+      }
+    };
+    wrap.appendChild(card);
+  });
+}
+
+function duplicateEntry(entry){
+  const copy = {
+    id: null,
+    data: new Date().toISOString().slice(0,10),
+    setor: entry.setor,
+    hospital: entry.hospital,
+    supervisor: entry.supervisor,
+    inicio: entry.inicio,
+    fim: entry.fim,
+    modo: entry.modo,
+    resumo: '',
+    procs: entry.modo==='detalhado' ? JSON.parse(JSON.stringify(entry.procs||[])) : [],
+    obs: '',
+  };
+  openForm(copy);
+}
+
+function renderAll(){ renderStats(); renderEntries(); }
+
+/* ---------- export / import ---------- */
+document.getElementById('exportBtn').onclick = ()=>{
+  const blob = new Blob([JSON.stringify({entries, goalHours}, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'portfolio_estagio_backup.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  dirty = false;
+  document.getElementById('saveBanner').classList.remove('show');
+};
+
+const fileInput = document.getElementById('fileInput');
+document.getElementById('importBtn').onclick = ()=>fileInput.click();
+fileInput.onchange = (e)=>{
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev)=>{
+    try{
+      const data = JSON.parse(ev.target.result);
+      const imported = data.entries || [];
+      if(data.goalHours){ goalHours = data.goalHours; }
+      if(entries.length>0){
+        if(!confirm(`Você já tem ${entries.length} registro(s) nesta sessão. Importar vai ADICIONAR os ${imported.length} registros do backup aos atuais (sem duplicar por data+setor idênticos). Continuar?`)) return;
+      }
+      const existingKeys = new Set(entries.map(x=>x.id));
+      imported.forEach(im=>{ if(!existingKeys.has(im.id)) entries.push(im); });
+      markDirty();
+      renderAll();
+      alert('Backup importado! ' + imported.length + ' registro(s) no arquivo.');
+    }catch(err){
+      alert('Não consegui ler esse arquivo. Confira se é um backup exportado por este mesmo app.');
+    }
+  };
+  reader.readAsText(file);
+  fileInput.value = '';
+};
+
+/* ---------- report generator ---------- */
+const reportModal = document.getElementById('reportModal');
+document.getElementById('reportBtn').onclick = ()=>{
+  reportModal.classList.add('show');
+  document.getElementById('reportBox').style.display='none';
+  document.getElementById('repCopyBtn').style.display='none';
+};
+document.getElementById('reportClose').onclick = ()=>reportModal.classList.remove('show');
+reportModal.addEventListener('click', e=>{ if(e.target===reportModal) reportModal.classList.remove('show'); });
+
+document.getElementById('repGenBtn').onclick = ()=>{
+  const from = document.getElementById('repFrom').value;
+  const to = document.getElementById('repTo').value;
+  let sel = entries.filter(e=> (!from || e.data>=from) && (!to || e.data<=to) );
+  sel = sel.sort((a,b)=>a.data.localeCompare(b.data));
+  if(sel.length===0){
+    document.getElementById('reportBox').style.display='block';
+    document.getElementById('reportBox').textContent = 'Nenhum registro no período selecionado.';
+    document.getElementById('repCopyBtn').style.display='none';
+    return;
+  }
+  const totalHoras = sel.reduce((s,e)=>s+hoursBetween(e.inicio,e.fim),0);
+  const setores = [...new Set(sel.map(e=>e.setor).filter(Boolean))];
+  const procCount = {};
+  sel.forEach(e=>(e.procs||[]).forEach(p=>{ procCount[p.nome] = (procCount[p.nome]||0)+p.qtd; }));
+
+  let txt = `RELATÓRIO DE ESTÁGIO\n`;
+  txt += `Período: ${from||'início'} a ${to||'hoje'}\n`;
+  txt += `Total de plantões: ${sel.length} | Total de horas: ${totalHoras.toFixed(1)}h\n`;
+  txt += `Setores: ${setores.join(', ')||'—'}\n`;
+  if(Object.keys(procCount).length>0){
+    txt += `\nPROCEDIMENTOS REALIZADOS NO PERÍODO:\n`;
+    Object.entries(procCount).sort((a,b)=>b[1]-a[1]).forEach(([k,v])=>{ txt += `- ${k}: ${v}x\n`; });
+  }
+  txt += `\nDETALHAMENTO POR PLANTÃO:\n`;
+  sel.forEach(e=>{
+    const [y,m,d] = e.data.split('-');
+    const horas = hoursBetween(e.inicio,e.fim);
+    txt += `\n${d}/${m}/${y} · ${e.setor||'setor não informado'}`;
+    if(e.hospital) txt += ` (${e.hospital})`;
+    if(e.inicio&&e.fim) txt += ` · ${e.inicio}-${e.fim} (${horas.toFixed(1)}h)`;
+    if(e.supervisor) txt += ` · Superv.: ${e.supervisor}`;
+    txt += `\n`;
+    if(e.modo==='resumo' && e.resumo){ txt += e.resumo + '\n'; }
+    if(e.modo==='detalhado' && e.procs && e.procs.length){
+      txt += e.procs.map(p=>`  • ${p.nome} (${p.qtd}x)`).join('\n') + '\n';
+    }
+    if(e.obs){ txt += `Obs: ${e.obs}\n`; }
+  });
+
+  const box = document.getElementById('reportBox');
+  box.style.display = 'block';
+  box.textContent = txt;
+  const copyBtn = document.getElementById('repCopyBtn');
+  copyBtn.style.display = 'block';
+  copyBtn.onclick = ()=>{
+    navigator.clipboard.writeText(txt).then(()=>{
+      copyBtn.textContent = '✓ Copiado!';
+      setTimeout(()=>copyBtn.textContent='📋 Copiar texto', 1500);
+    });
+  };
+};
+
+/* ---------- warn before unload ---------- */
+window.addEventListener('beforeunload', (e)=>{
+  if(dirty){ e.preventDefault(); e.returnValue=''; }
+});
+
+renderAll();
+</script>
+</body>
+</html>
